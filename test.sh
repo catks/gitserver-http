@@ -1,35 +1,54 @@
 #!/bin/bash
 
 set -o errexit
-set -o xtrace
+#set -o xtrace
+
 
 main() {
-  init_docker_container
-  sleep 3
+  ./wait-for-it.sh gitserver:80 -- echo 'gitserver is up'
+
   assert_can_clone
+  assert_can_push
 }
 
-init_docker_container() {
-  docker-compose \
-    -f ./example/docker-compose.yml \
-    up \
-    -d
+separator() {
+  echo '----------------------------------'
+}
+
+test_status() {
+  separator
+  echo $1
+  separator
 }
 
 assert_can_clone() {
-  git clone http://localhost:8080/myrepo.git
+  test_status 'Testing git clone'
+  git clone http://gitserver/myrepo.git
   [[ -f "myrepo/myfile.txt" ]] || exit 1
 
-  echo "OK!"
+  test_status 'OK'
+}
+
+
+assert_can_push() {
+  test_status 'Testing git push'
+  git clone http://gitserver/myrepo.git || true
+
+  cd myrepo
+  touch anotherfile.txt
+  git add .
+  git commit -m 'Another file'
+  git push
+  cd ..
+  test_status 'OK'
 }
 
 cleanup() {
   local exit_code=$?
 
-  echo "Exited with [$exit_code]"
-  docker-compose \
-    -f ./example/docker-compose.yml \
-    stop
+  test_status "Exited with [$exit_code]"
+
+  test_status "Cleaning...."
   rm -rf ./myrepo
 }
 

@@ -1,10 +1,11 @@
 version: '3.2'
 services:
+  gitclient:
+    build:
+      context: 'docker/gitclient'
+
   gitserver:
-    image: 'cirocosta/gitserver-http'
-    command: 
-      - '-init'
-      - '-start'
+    image: 'catks/gitserver-http'
     volumes:
       - './initial:/var/lib/initial:ro'
     ports:
