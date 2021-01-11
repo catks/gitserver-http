@@ -12,6 +12,10 @@ image:
 	docker build -t $(IMAGE_NAME) .
 
 release:
+	verto tag up --${VERSION:-patch}
+
+	BUILD_VERSION=$(git describe --tags)
+
 	docker tag $(IMAGE_NAME) $(IMAGE_NAME):$(BUILD_VERSION)
 
 	docker push $(IMAGE_NAME):$(BUILD_VERSION)
