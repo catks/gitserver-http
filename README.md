@@ -9,7 +9,7 @@ To run a git server without any repositories configured in advance but allowing 
 
   ```sh
   docker run \
-    -d  \                                 # deamonize
+    -d  \                                 # daemonize
     -v `pwd`/repositories:/var/lib/git \  # mount the volume
     -p "8080:80" \                        # expose the port
     catks/gitserver-http:0.1.0
@@ -49,7 +49,7 @@ and then executing
     -d  \                                 # deamonize
     -v `pwd`/initial:/var/lib/initial \   # mount the initial volume
     -p "8080:80" \                        # expose the port
-    catks/gitserver-http              # start git server and init repositories
+    catks/gitserver-http:0.1.0            # start git server and init repositories
   ```
 
 will allow you to skip the `git init --bare` step and start with the repositories pre-"installed" there:

@@ -15,7 +15,7 @@ context(branch('master')) {
                      confirmation: true,
                      filename: 'CHANGELOG.md')
 
-    file('README.md').replace(latest_version.to_s, new_version.to_s)
+    file('README.md').replace_all(latest_version.to_s, new_version.to_s)
     git('add CHANGELOG.md')
     git('commit -m "Bumps Version"')
   }
