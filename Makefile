@@ -1,5 +1,6 @@
 IMAGE_NAME 	:=	catks/gitserver-http
 SAMPLE_REPO	:=  ./examples/repositories/sample-repo
+BUILD_VERSION 	:=  $(shell git describe --tags)
 
 all: image
 
@@ -12,9 +13,7 @@ image:
 	docker build -t $(IMAGE_NAME) .
 
 release:
-	verto tag up --${VERSION:-patch}
-
-	BUILD_VERSION=$(git describe --tags)
+	verto tag up --${VERSION}
 
 	docker tag $(IMAGE_NAME) $(IMAGE_NAME):$(BUILD_VERSION)
 

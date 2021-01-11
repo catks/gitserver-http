@@ -12,7 +12,7 @@ To run a git server without any repositories configured in advance but allowing 
     -d  \                                 # deamonize
     -v `pwd`/repositories:/var/lib/git \  # mount the volume
     -p "8080:80" \                        # expose the port
-    catks/gitserver-http:0.1.0-rc.3
+    catks/gitserver-http:0.1.0
   ```
 
 Now, initialize a bare repository:
